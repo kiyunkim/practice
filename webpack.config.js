@@ -1,5 +1,5 @@
 const path = require('path'); // for different operating systems
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // webpack only knows js, so add plugin to read html
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -25,6 +25,10 @@ module.exports = {
             plugins: ['@babel/plugin-transform-runtime']
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader/url', 'file-loader']
       }
     ]
   },
@@ -34,6 +38,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      title: 'custom title',
+      text: 'some text',
       template: path.join(__dirname, 'src', 'index.html'),
       inject: 'body', // this is the default, not needed
       hash: true,

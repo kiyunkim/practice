@@ -1,6 +1,4 @@
-import url from '../style.css';
+require('../style.scss');
 const string = require('./string');
 
-
-alert(string);
-console.log(foo);
+console.log(string);

@@ -1,2 +1,2 @@
-var string = 'test';
+var string = 'string.js';
 module.exports = string;

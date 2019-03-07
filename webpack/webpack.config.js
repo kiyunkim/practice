@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // webpack only knows 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // to convert into css file
 
 // environment set in cli through scripts
-const isDev = process.env.NODE_DEV === 'dev';
+const isDev = process.env.NODE_ENV === 'dev';
 
 const config = {
   devtool: 'cheap-module-eval-source-map',

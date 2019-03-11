@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const babelLoader = require('./babelLoader');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = function (env) {
   const isDev = env.dev;
@@ -15,9 +15,10 @@ module.exports = function (env) {
       publicPath: '/dist/',
     },
     plugins: [
-      new webpack.DefinePlugin({
+      new webpack.DefinePlugin({ // define constants
         ENV: JSON.stringify(isDev ? 'development' : 'production')
-      })
+      }),
+      new CleanWebpackPlugin()
     ]
   }
 
@@ -42,6 +43,27 @@ module.exports = function (env) {
   if (isProd) {
     return merge(baseConfig, {
       mode: 'production',
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            include: /app/,
+            use: {
+              loader: 'babel-loader', // compile js only in prod
+              options: {
+                presets: [
+                  ['@babel/preset-env', {
+                    debug: true,
+                    targets: {
+                      browsers: ['defaults']
+                    }
+                  }]
+                ]
+              }
+            }
+          }
+        ]
+      }
     })
   }
 };

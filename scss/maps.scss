@@ -1,0 +1,89 @@
+// variables
+
+// colors
+$colors: ();
+
+$white: #fff;
+$black: #000;
+$grey: (
+  100: #f6f6f6,
+  200: #eee,
+  300: #ddd,
+  400: #ccc,
+  500: #aaa,
+  600: #888,
+  700: #666,
+  800: #444,
+  900: #333,
+);
+$blue: (
+  "light": (
+    300: #39d9f9,
+    400: #2cb4e7,
+  ),
+  "dark": (
+    300: #455774,
+    400: #26374d,
+    500: #1f2c40,
+    600: #142135,
+    900: #0a1c39
+  ),
+);
+$red: (
+  100: #900
+);
+
+$colors: (
+  'white': $white,
+  'black': $black,
+  'blue': $blue,
+  'grey': $grey
+);
+
+@function map-deep-get($type, $map, $keys...) {
+  $value: $map;
+  
+  // check each key
+  @each $key in $keys {
+    @if map-has-key($value, $key) {
+      $value: map-get($value, $key);
+    }
+    @else {
+      @error "`#{$key}` is not a valid key.";
+    }
+  }
+
+  @if type-of($value) == color {
+    @return $value;    
+  }
+  @else {
+    @error "`#{$value}` is not a color."
+  }
+};
+
+@mixin setcolor($type, $colormap...) {
+  $color: map-deep-get('color', $colors, $colormap...);
+
+  @if $type == 'text' {
+    color: $color;
+  }
+  @else {
+    #{$type}-color: $color;
+  }
+};
+
+
+body {
+  padding: 1rem;
+  font-size: 16px;
+  @include setcolor('background', 'blue', 'dark', 900);
+  @include setcolor('text', 'grey', 300);
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+p {
+  margin: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}
